@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>360&deg; Image Gallery</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+    <script src="aframe-href-component.js"></script>
+  </head>
+  <body>
+    <a-scene vr-mode-ui>
+      <a-assets>
+         <!-- <img id="belakang" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/belakang.jpg">
+        <img id="kantin" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/deket kantin.jpg">
+        <img id="ged_d_dalam" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/ged_d_dalam.jpg">
+        <img id="panggung" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/panggung.jpg">
+        <img id="samping" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/samping.jpg">
+        <img id="belakang-icon" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/icon_belakang.png">
+        <img id="tanpa-atap-icon" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/icon_atap.png">
+        <img id="tengah-icon" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/icon_tengah.png">
+        <img id="depan-icon" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/icon_depan.png">
+        <img id="ged-d-icon" crossorigin="anonymous" src="https://vrweb.000webhostapp.com/Asset/icon_ged_d.png"> -->
+        
+        <!-- Image link template to be reused. -->
+        <!-- Ini buat local -->
+        <img id="belakang" crossorigin="anonymous" src="Asset/belakang.jpg">
+        <img id="kantin" crossorigin="anonymous" src="Asset/deket kantin.jpg">
+        <img id="ged_d_dalam" crossorigin="anonymous" src="Asset/ged_d_dalam.jpg">
+        <img id="panggung" crossorigin="anonymous" src="Asset/panggung.jpg">
+        <img id="samping" crossorigin="anonymous" src="Asset/samping.jpg">
+        <img id="belakang-icon" crossorigin="anonymous" src="Asset/icon_belakang.png">
+        <img id="tanpa-atap-icon" crossorigin="anonymous" src="Asset/icon_atap.png">
+        <img id="tengah-icon" crossorigin="anonymous" src="Asset/icon_tengah.png">
+        <img id="depan-icon" crossorigin="anonymous" src="Asset/icon_depan.png">
+        <img id="ged-d-icon" crossorigin="anonymous" src="Asset/icon_ged_d.png"> -->
+
+         <!-- Akhir Local -->
+        <script id="link" type="text/html">
+          <a-entity class="link"
+            geometry="primitive: plane; height: 1; width: 1"
+            material="shader: flat; src: ${thumb}"
+            event-set__mouseenter="scale: 1.2 1.2 1"
+            event-set__mouseleave="scale: 1 1 1"
+            event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
+            proxy-event="event: click; to: #image-360; as: fade"
+            sound="on: click; src: #click-sound"></a-entity>
+        </script>
+      </a-assets>
+
+      <!-- 360-degree image. -->
+      <a-sky id="image-360" radius="10" src="#ged_d_dalam"
+             animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
+             animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 7.5" position="-5 1.5 -4" rotation="0 0 0">
+        <!-- <a-entity template="src: #link" data-src="#ged_d_dalam" data-thumb="#ged-d-icon"></a-entity> -->
+        <!-- <a-entity template="src: #link" data-src="#belakang" data-thumb="#belakang-icon"></a-entity> -->
+        <!-- <a-entity template="src: #link" data-src="#samping" data-thumb="#tengah-icon" href="gazeboTengah.html"></a-entity> -->
+        <a-entity template="src: #link" data-src="#panggung" data-thumb="#depan-icon" href="depan.html"></a-entity>
+        <a-entity template="src: #link" data-src="#kantin" data-thumb="#tanpa-atap-icon" href="tanpaatap.html"></a-entity>
+      </a-entity>
+      <!-- <a-entity id="camera" camera="userHeight: 1.6" look-controls cursor="rayOrigin: mouse">
+          <a-cursor
+            id="cursor"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="_event: mouseenter; color: springgreen"
+            event-set__mouseleave="_event: mouseleave; color: black"
+            geometry="primitive: ring"
+            raycaster="objects: .link">
+          </a-cursor>
+        </a-entity> -->
+        <a-entity position="0 0 -0">
+          <a-camera id="camera" look-controls wasd-controls-enabled="false" camera="active:true" rotation="0 0 0" position="0 1 0">
+            <!-- <a-cursor color="#4CC3D9"></a-cursor> -->
+            <a-ring radius-outer="0.30" radius-inner="0.20" position="0 0 -3" material="color: red; shader: flat" cursor="maxDistance: 1000; fuse: true" geometry="primitive:ring;radiusOuter:0.30;radiusInner:0.20" raycaster="" scale="0.4628376812078244 0.4628376812078244 0.4628376812078244">
+              <a-animation begin="click" easing="ease-in" attribute="scale" fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
+              <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="forwards" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
+            </a-ring> 
+          </a-camera>
+        </a-entity>
+    </a-scene>
+    <script>
+    AFRAME.registerComponent('cursor-listener', {
+  init: function () {
+    var lastIndex = -1;
+    var COLORS = ['red', 'green', 'blue'];
+    this.el.addEventListener('click', function (evt) {
+      lastIndex = (lastIndex + 1) % COLORS.length;
+      this.setAttribute('material', 'color', COLORS[lastIndex]);
+      console.log('I was clicked at: ', evt.detail.intersection.point);
+    });
+  }
+});
+    </script>
+  </body>
+</html>
